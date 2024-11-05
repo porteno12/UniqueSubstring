@@ -8,8 +8,27 @@ public class UniqueSubstring {
     }
 
     public static String longestUniqueSubstring(String input) {
-        // TODO: Implement the logic to find the longest substring with unique characters
-        return "";  // Return an empty string by default
+        int[] lastSeen = new int[128]; //128 because there are 128 ascii values that are used in the keyboard
+        for (int i = 0; i < 128; i++) {
+            lastSeen[i] = -1;
+        }
+        int left = 0;
+        int maxLength = 0;
+        int startOfLongest = 0;
+        for (int right = 0; right < input.length(); right++)
+        {
+            char currentChar = input.charAt(right);
+            if (lastSeen[currentChar] >= left)
+            {
+                left = lastSeen[currentChar] + 1;
+            }
+            lastSeen[currentChar] = right;
+            if (right - left + 1 > maxLength) {
+                maxLength = right - left + 1;
+                startOfLongest = left;
+            }
+        }
+        return input.substring(startOfLongest, startOfLongest + maxLength);
 
     }
 }
